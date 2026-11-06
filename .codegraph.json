@@ -1,0 +1,15 @@
+{
+  "workspace": ".",
+  "profile": "graph",
+  "graphOnly": true,
+  "embeddingModel": "static",
+  "exclude": [
+    ".venv",
+    ".git",
+    ".dsh-acl-recovery",
+    "__pycache__",
+    ".pytest_cache",
+    ".ruff_cache"
+  ],
+  "maxFiles": 5000
+}
