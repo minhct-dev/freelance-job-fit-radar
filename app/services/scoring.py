@@ -1,4 +1,4 @@
-from app.models import Job, Profile, RankedJob
+from app.models.models import Job, Profile, RankedJob
 
 
 def rank_job(job: Job, profile: Profile) -> RankedJob:
@@ -27,3 +27,4 @@ def rank_job(job: Job, profile: Profile) -> RankedJob:
         missing_skills=missing,
         reasons=reasons,
     )
+

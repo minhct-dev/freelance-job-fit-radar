@@ -1,5 +1,5 @@
-from app.models import Job, Profile
-from app.scoring import rank_job
+from app.models.models import Job, Profile
+from app.services.scoring import rank_job
 
 
 def test_rank_job_explains_exact_skill_overlap() -> None:
@@ -20,3 +20,5 @@ def test_empty_profile_has_zero_score() -> None:
     assert result.fit_score == 0
     assert result.matched_skills == []
     assert result.missing_skills == []
+
+

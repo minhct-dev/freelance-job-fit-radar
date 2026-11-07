@@ -4,6 +4,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     telegram_bot_token: str | None = None
     telegram_chat_id: int | None = None
+    database_url: str = "sqlite:///./radar.db"
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -13,3 +14,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
