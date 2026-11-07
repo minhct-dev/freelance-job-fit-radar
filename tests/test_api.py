@@ -29,7 +29,7 @@ def test_import_jobs_deduplication() -> None:
         {
             "id": "test-import-1",
             "title": "Data Engineer",
-            "skills": ["Python", "SQL"],
+            "skill_and_expertise": ["Python", "SQL"],
         }
     ]
     # First import: 1 inserted
@@ -61,3 +61,19 @@ def test_scan_alerts_endpoint(mock_send) -> None:
     assert "alerts_sent" in data
 
 
+def test_scheduler_status_endpoint() -> None:
+    response = client.get("/scheduler/status")
+    assert response.status_code == 200
+    data = response.json()
+    assert "is_running" in data
+    assert "interval_minutes" in data
+    assert "min_fit_score" in data
+
+
+@patch("app.services.alert_service.send_job_alert", new_callable=AsyncMock)
+def test_scheduler_trigger_endpoint(mock_send) -> None:
+    response = client.post("/scheduler/trigger")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["message"] == "Scheduler cycle executed"
+    assert "result" in data

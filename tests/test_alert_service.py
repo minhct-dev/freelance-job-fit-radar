@@ -16,14 +16,12 @@ async def test_scan_and_alert_deduplication(mock_send, tmp_path) -> None:
     job_high_fit = Job(
         id="match-1",
         title="Python FastAPI API",
-        skills=["Python", "FastAPI"],
-        budget_min=200,
-        budget_max=400,
+        skill_and_expertise=["Python", "FastAPI"],
     )
     job_low_fit = Job(
         id="low-1",
         title="Flutter Mobile App",
-        skills=["Flutter", "Dart"],
+        skill_and_expertise=["Flutter", "Dart"],
     )
 
     save_jobs([job_high_fit, job_low_fit], db_path=db_file)

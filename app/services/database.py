@@ -47,12 +47,13 @@ def init_db(db_path: str | None = None) -> None:
             CREATE TABLE IF NOT EXISTS jobs (
                 id TEXT PRIMARY KEY,
                 title TEXT NOT NULL,
-                description TEXT DEFAULT '',
+                summary TEXT DEFAULT '',
                 url TEXT,
-                skills TEXT DEFAULT '[]',
-                budget_min REAL,
-                budget_max REAL,
-                currency TEXT,
+                skill_and_expertise TEXT DEFAULT '[]',
+                client_review INTEGER DEFAULT 0,
+                client_evaluate REAL DEFAULT 0.0,
+                fixed_price REAL,
+                hourly_price REAL,
                 posted_at TEXT,
                 created_at TEXT NOT NULL
             );
@@ -78,7 +79,7 @@ def init_db(db_path: str | None = None) -> None:
 
 
 def _row_to_job(row: sqlite3.Row) -> Job:
-    skills_raw = row["skills"]
+    skills_raw = row["skill_and_expertise"]
     try:
         skills = json.loads(skills_raw) if skills_raw else []
     except (json.JSONDecodeError, TypeError):
@@ -87,12 +88,13 @@ def _row_to_job(row: sqlite3.Row) -> Job:
     return Job(
         id=row["id"],
         title=row["title"],
-        description=row["description"] or "",
+        summary=row["summary"] or "",
         url=row["url"],
-        skills=skills,
-        budget_min=row["budget_min"],
-        budget_max=row["budget_max"],
-        currency=row["currency"],
+        skill_and_expertise=skills,
+        client_review=row["client_review"],
+        client_evaluate=row["client_evaluate"],
+        fixed_price=row["fixed_price"],
+        hourly_price=row["hourly_price"],
         posted_at=row["posted_at"],
     )
 
@@ -112,19 +114,20 @@ def save_jobs(jobs: list[Job], db_path: str | None = None) -> int:
             cursor.execute(
                 """
                 INSERT OR IGNORE INTO jobs (
-                    id, title, description, url, skills,
-                    budget_min, budget_max, currency, posted_at, created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    id, title, summary, url, skill_and_expertise,
+                    client_review, client_evaluate, fixed_price, hourly_price, posted_at, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     job.id,
                     job.title,
-                    job.description,
+                    job.summary,
                     job.url,
-                    json.dumps(job.skills),
-                    job.budget_min,
-                    job.budget_max,
-                    job.currency,
+                    json.dumps(job.skill_and_expertise),
+                    job.client_review,
+                    job.client_evaluate,
+                    job.fixed_price,
+                    job.hourly_price,
                     job.posted_at,
                     now,
                 ),
@@ -231,5 +234,3 @@ def get_unalerted_jobs(db_path: str | None = None) -> list[Job]:
         )
         rows = cursor.fetchall()
         return [_row_to_job(row) for row in rows]
-
-

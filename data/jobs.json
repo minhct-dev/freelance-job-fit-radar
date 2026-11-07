@@ -2,23 +2,25 @@
   {
     "id": "demo-api-001",
     "title": "Build a small REST API",
-    "description": "Portfolio fixture: create a simple backend API with tests.",
+    "summary": "Portfolio fixture: create a simple backend API with tests.",
     "url": "https://example.com/jobs/demo-api-001",
-    "skills": ["Python", "FastAPI", "REST API", "SQL"],
-    "budget_min": 150,
-    "budget_max": 300,
-    "currency": "USD",
+    "skill_and_expertise": ["Python", "FastAPI", "REST API", "SQL"],
+    "client_review": 10,
+    "client_evaluate": 4.5,
+    "fixed_price": 200.0,
+    "hourly_price": null,
     "posted_at": "2026-01-15T09:00:00Z"
   },
   {
     "id": "demo-frontend-001",
     "title": "Refresh a marketing website UI",
-    "description": "Portfolio fixture: improve a responsive frontend layout.",
+    "summary": "Portfolio fixture: improve a responsive frontend layout.",
     "url": "https://example.com/jobs/demo-frontend-001",
-    "skills": ["React", "CSS", "Design"],
-    "budget_min": null,
-    "budget_max": null,
-    "currency": null,
+    "skill_and_expertise": ["React", "CSS", "Design"],
+    "client_review": 5,
+    "client_evaluate": 4.0,
+    "fixed_price": null,
+    "hourly_price": 30.0,
     "posted_at": null
   }
 ]

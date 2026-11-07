@@ -6,12 +6,13 @@ class Job(BaseModel):
 
     id: str = Field(min_length=1)
     title: str = Field(min_length=1)
-    description: str = ""
+    summary: str = ""
     url: str | None = None
-    skills: list[str] = Field(default_factory=list)
-    budget_min: float | None = Field(default=None, ge=0)
-    budget_max: float | None = Field(default=None, ge=0)
-    currency: str | None = None
+    skill_and_expertise: list[str] = Field(default_factory=list)
+    client_review: int = 0
+    client_evaluate: float = 0.0
+    fixed_price: float | None = None
+    hourly_price: float | None = None
     posted_at: str | None = None
 
 
@@ -24,4 +25,3 @@ class RankedJob(Job):
     matched_skills: list[str]
     missing_skills: list[str]
     reasons: list[str]
-

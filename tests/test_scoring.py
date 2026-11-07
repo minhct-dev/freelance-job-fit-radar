@@ -4,7 +4,7 @@ from app.services.scoring import rank_job
 
 def test_rank_job_explains_exact_skill_overlap() -> None:
     result = rank_job(
-        Job(id="1", title="API", skills=["Python", "FastAPI"]),
+        Job(id="1", title="API", skill_and_expertise=["Python", "FastAPI"]),
         Profile(skills={"python", "fastapi", "sql", "rest api"}),
     )
 

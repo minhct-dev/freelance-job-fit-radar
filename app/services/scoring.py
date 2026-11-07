@@ -6,7 +6,7 @@ def rank_job(job: Job, profile: Profile) -> RankedJob:
     def normalize(values: set[str] | list[str]) -> set[str]:
         return {value.strip().casefold() for value in values if value.strip()}
 
-    job_skills = normalize(job.skills)
+    job_skills = normalize(job.skill_and_expertise)
     profile_skills = normalize(profile.skills)
     matched = sorted(job_skills & profile_skills)
     missing = sorted(profile_skills - job_skills)

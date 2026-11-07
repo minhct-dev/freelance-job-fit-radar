@@ -6,26 +6,26 @@ from app.utils.settings import settings
 
 def format_job_alert(job: RankedJob) -> str:
     """Format a ranked job into a clear, scannable Telegram Markdown alert."""
-    budget_line = "Thương lượng"
-    curr = job.currency or "$"
-    if job.budget_min is not None and job.budget_max is not None:
-        budget_line = f"{curr}{job.budget_min:,.0f} - {curr}{job.budget_max:,.0f}"
-    elif job.budget_max is not None:
-        budget_line = f"Tối đa {curr}{job.budget_max:,.0f}"
-    elif job.budget_min is not None:
-        budget_line = f"Tối thiểu {curr}{job.budget_min:,.0f}"
+    price_line = "Negotiable"
+    if job.fixed_price:
+        price_line = f"Fixed: ${job.fixed_price:,.0f}"
+    elif job.hourly_price:
+        price_line = f"Hourly: ${job.hourly_price:,.0f}/hr"
 
-    matched = ", ".join(job.matched_skills) if job.matched_skills else "Không"
-    missing = ", ".join(job.missing_skills) if job.missing_skills else "Không"
-    url_line = f"\n🔗 [Xem job trên Upwork]({job.url})" if job.url else ""
+    skills = ", ".join(job.skill_and_expertise) if job.skill_and_expertise else "N/A"
+    matched = ", ".join(job.matched_skills) if job.matched_skills else "None"
+    missing = ", ".join(job.missing_skills) if job.missing_skills else "None"
+    url_line = f"\n🔗 [View job on Upwork]({job.url})" if job.url else ""
 
     return (
-        f"🎯 *[Freelance Job Fit Radar]* Phát hiện Job mới!\n\n"
-        f"📌 *Tiêu đề:* `{job.title}`\n"
-        f"⭐ *Độ phù hợp:* `{job.fit_score}%`\n"
-        f"💰 *Ngân sách:* {budget_line}\n"
-        f"✅ *Kỹ năng khớp:* `{matched}`\n"
-        f"⚠️ *Kỹ năng thiếu:* `{missing}`"
+        f"🎯 *[Freelance Job Fit Radar]* New Job Found!\n\n"
+        f"📌 *Title:* `{job.title}`\n"
+        f"⭐ *Client Rating:* {job.client_evaluate} stars ({job.client_review} reviews)\n"
+        f"⭐ *Fit Score:* `{job.fit_score}%`\n"
+        f"💰 *Budget:* {price_line}\n"
+        f"🛠 *Skills:* `{skills}`\n"
+        f"✅ *Matched Skills:* `{matched}`\n"
+        f"⚠️ *Missing Skills:* `{missing}`"
         f"{url_line}"
     )
 
@@ -41,4 +41,3 @@ async def send_job_alert(text: str) -> None:
             text=text,
             parse_mode="Markdown",
         )
-
